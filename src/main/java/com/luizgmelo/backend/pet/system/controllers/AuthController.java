@@ -1,6 +1,7 @@
 package com.luizgmelo.backend.pet.system.controllers;
 
 import com.luizgmelo.backend.pet.system.dto.*;
+import com.luizgmelo.backend.pet.system.enums.UserRole;
 import com.luizgmelo.backend.pet.system.infra.security.TokenService;
 import com.luizgmelo.backend.pet.system.models.UserModel;
 import com.luizgmelo.backend.pet.system.repositories.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -50,7 +52,7 @@ public class AuthController {
         newUser.setName(body.name());
         newUser.setEmail(body.email());
         newUser.setPassword(passwordHashed);
-        newUser.setRoles(body.roles());
+        newUser.setRoles(Set.of(UserRole.USER));
         userRepository.save(newUser);
         RegisterResponseDTO response = new RegisterResponseDTO("Usuário cadastrado com sucesso");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
