@@ -1,12 +1,10 @@
 package com.luizgmelo.backend.pet.system.controllers;
 
-import com.luizgmelo.backend.pet.system.dto.LoginRequestDTO;
-import com.luizgmelo.backend.pet.system.dto.RegisterRequestDTO;
-import com.luizgmelo.backend.pet.system.dto.RegisterResponseDTO;
-import com.luizgmelo.backend.pet.system.dto.LoginResponseDTO;
+import com.luizgmelo.backend.pet.system.dto.*;
 import com.luizgmelo.backend.pet.system.infra.security.TokenService;
 import com.luizgmelo.backend.pet.system.models.UserModel;
 import com.luizgmelo.backend.pet.system.repositories.UserRepository;
+import com.luizgmelo.backend.pet.system.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,6 +25,9 @@ public class AuthController {
 
     private final TokenService tokenService;
 
+    private final UserService userService;
+
+    // TODO Create UserService for business logic
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO body) {
         UserModel user = userRepository.findByEmail(body.email()).orElseThrow(()-> new RuntimeException("Login ou Senha incorreto"));
@@ -53,4 +55,10 @@ public class AuthController {
         RegisterResponseDTO response = new RegisterResponseDTO("Usuário cadastrado com sucesso");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<UserDTO> findById(@PathVariable UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
+    }
+
 }
