@@ -1,6 +1,7 @@
 package com.luizgmelo.backend.pet.system.controllers;
 
 import com.luizgmelo.backend.pet.system.dto.*;
+import com.luizgmelo.backend.pet.system.repositories.UserRepository;
 import com.luizgmelo.backend.pet.system.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class AuthController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO body) {
@@ -37,6 +39,12 @@ public class AuthController {
     @GetMapping("{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+        userService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

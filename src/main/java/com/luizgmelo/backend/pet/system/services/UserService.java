@@ -53,5 +53,7 @@ public class UserService {
         return new RegisterResponseDTO("Usuário cadastrado com sucesso");
     }
 
-
+    public void deleteById(UUID id) {
+        userRepository.deleteById(id);
+    }
 }
