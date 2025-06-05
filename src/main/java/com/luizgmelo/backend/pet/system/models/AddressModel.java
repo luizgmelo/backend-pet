@@ -1,12 +1,14 @@
 package com.luizgmelo.backend.pet.system.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_address")
+@Builder
 public class AddressModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

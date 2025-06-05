@@ -3,6 +3,7 @@ package com.luizgmelo.backend.pet.system.models;
 import com.luizgmelo.backend.pet.system.enums.PetSex;
 import com.luizgmelo.backend.pet.system.enums.PetType;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "tb_pet")
+@Builder
 @Getter
 @Setter
 public class PetModel {
