@@ -1,5 +1,6 @@
 package com.luizgmelo.backend.pet.system.services;
 
+import com.luizgmelo.backend.pet.system.dto.PetDTO;
 import com.luizgmelo.backend.pet.system.dto.PetRequestDTO;
 import com.luizgmelo.backend.pet.system.models.AddressModel;
 import com.luizgmelo.backend.pet.system.models.PetModel;
@@ -18,11 +19,10 @@ public class PetService {
     private final PetRepository petRepository;
     private final AddressRepository addressRepository;
 
-    public Page<PetModel> listPest(int pageNo, int pageSize) {
+    public Page<PetDTO> listPest(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        return petRepository.findAll(pageable);
+        return petRepository.findAll(pageable).map(PetDTO::fromPet);
     }
-
     public void createPet(PetRequestDTO request) {
         AddressModel address = AddressModel.builder()
                 .city(request.city())

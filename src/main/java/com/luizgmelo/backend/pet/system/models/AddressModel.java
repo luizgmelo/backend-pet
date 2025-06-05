@@ -3,6 +3,7 @@ package com.luizgmelo.backend.pet.system.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class AddressModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
