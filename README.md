@@ -103,13 +103,5 @@ mvn spring-boot:run
         </sub>
       </a>
     </td>
-    <td align="center">
-      <a href="#">
-        <img src="https://avatars.githubusercontent.com/u/136597180?v=4" width="100px;" alt="Elon Musk Picture"/><br>
-        <sub>
-          <b>Wendson Santos</b>
-        </sub>
-      </a>
-    </td>
   </tr>
 </table>
