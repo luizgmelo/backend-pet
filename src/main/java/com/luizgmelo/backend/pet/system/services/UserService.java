@@ -6,7 +6,6 @@ import com.luizgmelo.backend.pet.system.infra.security.TokenService;
 import com.luizgmelo.backend.pet.system.models.UserModel;
 import com.luizgmelo.backend.pet.system.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
