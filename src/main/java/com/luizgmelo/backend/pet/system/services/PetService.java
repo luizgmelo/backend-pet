@@ -21,6 +21,10 @@ public class PetService {
     private final PetRepository petRepository;
     private final AddressRepository addressRepository;
 
+    public PetModel getPetById(UUID id) {
+        return petRepository.findById(id).orElseThrow();
+    }
+
     public Page<PetDTO> listPest(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return petRepository.findAll(pageable).map(PetDTO::fromPet);
@@ -38,6 +42,29 @@ public class PetService {
         PetModel savedPet = petRepository.save(newPet);
 
         return PetDTO.fromPet(savedPet);
+    }
+
+    public PetDTO updatePet(UUID petOldId, PetRequestDTO dto) {
+        PetModel petOld = this.getPetById(petOldId);
+
+        AddressModel addressModel = new AddressModel();
+        addressModel.setCity(dto.city());
+        addressModel.setHouseNumber(dto.houseNumber());
+        addressModel.setStreet(dto.street());
+
+        petOld.setFirstName(dto.firstName());
+        petOld.setLastName(dto.lastName());
+        petOld.setType(dto.type());
+        petOld.setSex(dto.sex());
+        petOld.setAddress(addressModel);
+        petOld.setAge(dto.age());
+        petOld.setWeight(dto.weight());
+        petOld.setBreed(dto.breed());
+
+        addressRepository.save(addressModel);
+        petRepository.save(petOld);
+
+        return PetDTO.fromPet(petOld);
     }
 
     public void deletePetById(UUID id) {

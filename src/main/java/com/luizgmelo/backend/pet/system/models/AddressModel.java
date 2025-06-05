@@ -12,6 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class AddressModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

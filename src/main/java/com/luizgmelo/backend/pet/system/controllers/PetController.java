@@ -2,6 +2,7 @@ package com.luizgmelo.backend.pet.system.controllers;
 
 import com.luizgmelo.backend.pet.system.dto.PetDTO;
 import com.luizgmelo.backend.pet.system.dto.PetRequestDTO;
+import com.luizgmelo.backend.pet.system.models.PetModel;
 import com.luizgmelo.backend.pet.system.services.PetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,12 @@ public class PetController {
     public ResponseEntity<PetDTO> createPet(@RequestBody PetRequestDTO request) {
         PetDTO petDTO = petService.createPet(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(petDTO);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<PetDTO> updatePet(@PathVariable UUID id, @RequestBody PetRequestDTO request) {
+        PetDTO petDTO = petService.updatePet(id, request);
+        return ResponseEntity.ok(petDTO);
     }
 
     @DeleteMapping("{id}")
