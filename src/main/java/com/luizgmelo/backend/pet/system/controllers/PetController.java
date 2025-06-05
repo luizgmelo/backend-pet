@@ -5,6 +5,7 @@ import com.luizgmelo.backend.pet.system.dto.PetRequestDTO;
 import com.luizgmelo.backend.pet.system.services.PetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +26,9 @@ public class PetController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createPet(@RequestBody PetRequestDTO request) {
-        petService.createPet(request);
-        return ResponseEntity.ok("Pet cadastrado com sucesso!");
+    public ResponseEntity<PetDTO> createPet(@RequestBody PetRequestDTO request) {
+        PetDTO petDTO = petService.createPet(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(petDTO);
     }
 
     @DeleteMapping("{id}")
@@ -35,6 +36,4 @@ public class PetController {
         petService.deletePetById(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

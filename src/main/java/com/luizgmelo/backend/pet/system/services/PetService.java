@@ -25,27 +25,19 @@ public class PetService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return petRepository.findAll(pageable).map(PetDTO::fromPet);
     }
-    public void createPet(PetRequestDTO request) {
-        AddressModel address = AddressModel.builder()
-                .city(request.city())
-                .houseNumber(request.houseNumber())
-                .street(request.street())
-                .build();
+    public PetDTO createPet(PetRequestDTO request) {
+        AddressModel address = AddressModel.builder().city(request.city()).houseNumber(request.houseNumber())
+                .street(request.street()).build();
 
         addressRepository.save(address);
 
-        PetModel newPet = PetModel.builder()
-                .firstName(request.firstName())
-                .lastName(request.lastName())
-                .age(request.age())
-                .address(address)
-                .sex(request.sex())
-                .breed(request.breed())
-                .weight(request.weight())
-                .type(request.type())
-                .build();
+        PetModel newPet = PetModel.builder().firstName(request.firstName()).lastName(request.lastName())
+                .age(request.age()).address(address).sex(request.sex()).breed(request.breed()).weight(request.weight())
+                .type(request.type()).build();
 
-        petRepository.save(newPet);
+        PetModel savedPet = petRepository.save(newPet);
+
+        return PetDTO.fromPet(savedPet);
     }
 
     public void deletePetById(UUID id) {
