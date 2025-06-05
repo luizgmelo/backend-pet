@@ -31,6 +31,21 @@ public class PetController {
         return ResponseEntity.status(HttpStatus.CREATED).body(petDTO);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<PetDTO> updatePet(@PathVariable UUID id, @RequestBody PetRequestDTO request) {
+
+        PetDTO petDTO = petService.getPetById(id);
+
+        if (petDTO == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        petService.updatePet(petDTO);
+
+        return ResponseEntity.ok(petDTO, request);
+
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletePet(@PathVariable UUID id) {
         petService.deletePetById(id);
