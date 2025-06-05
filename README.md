@@ -1,4 +1,4 @@
-<h1 align="center" style="font-weight: bold;">Invent'IS Backend 💻</h1>
+<h1 align="center" style="font-weight: bold;">Pet Backend 💻</h1>
 
 <p align="center">
  <a href="#tech">Tecnologias</a> • 
@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-    <b>Backend do sistema de almoxarifado + tombamento.</b>
+    <b>Backend do sistema cadastro de pets.</b>
 </p>
 
 <h2 id="technologies">💻 Tecnologias</h2>
@@ -52,6 +52,8 @@ mvn spring-boot:run
 <kbd>POST /auth/login </kbd>     | Acessar conta [request details](#post-auth-detail)
 
 <h3 id="get-auth-detail">POST /auth/register</h3>
+
+
 **REQUEST**
 ```json
 {
@@ -61,6 +63,8 @@ mvn spring-boot:run
   "roles": ["OPERATOR"]
 }
 ```
+
+
 **RESPONSE**
 ```json
 {
