@@ -1,7 +1,9 @@
 package com.luizgmelo.backend.pet.system.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 import java.util.UUID;
@@ -9,6 +11,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_address")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddressModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -9,12 +9,10 @@ import com.luizgmelo.backend.pet.system.services.PetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pets")
@@ -23,10 +21,17 @@ public class PetController {
 
     private final PetService petService;
 
+    @GetMapping
+    public ResponseEntity<Page<PetModel>> listPets(@RequestParam(defaultValue = "0") int pageNo,
+                                     @RequestParam(defaultValue = "10") int pageSize) {
+        Page<PetModel> pagePets = petService.listPest(pageNo, pageSize);
+        return ResponseEntity.ok(pagePets);
+    }
+
     @PostMapping
     public ResponseEntity<String> createPet(@RequestBody PetRequestDTO request) {
         petService.createPet(request);
-        return ResponseEntity.status(HttpStatus.OK).body("Pet cadastrado com sucesso!");
+        return ResponseEntity.ok("Pet cadastrado com sucesso!");
     }
 
 

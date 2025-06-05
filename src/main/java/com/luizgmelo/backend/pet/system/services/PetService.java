@@ -6,6 +6,9 @@ import com.luizgmelo.backend.pet.system.models.PetModel;
 import com.luizgmelo.backend.pet.system.repositories.AddressRepository;
 import com.luizgmelo.backend.pet.system.repositories.PetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +17,11 @@ public class PetService {
 
     private final PetRepository petRepository;
     private final AddressRepository addressRepository;
+
+    public Page<PetModel> listPest(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return petRepository.findAll(pageable);
+    }
 
     public void createPet(PetRequestDTO request) {
         AddressModel address = AddressModel.builder()
