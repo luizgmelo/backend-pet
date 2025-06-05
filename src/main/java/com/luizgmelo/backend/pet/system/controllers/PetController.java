@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/pets")
 @RequiredArgsConstructor
@@ -26,6 +28,12 @@ public class PetController {
     public ResponseEntity<String> createPet(@RequestBody PetRequestDTO request) {
         petService.createPet(request);
         return ResponseEntity.ok("Pet cadastrado com sucesso!");
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deletePet(@PathVariable UUID id) {
+        petService.deletePetById(id);
+        return ResponseEntity.noContent().build();
     }
 
 
