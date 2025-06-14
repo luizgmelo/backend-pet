@@ -2,8 +2,9 @@ package com.luizgmelo.backend.pet.system.services;
 
 import com.luizgmelo.backend.pet.system.dto.PetDTO;
 import com.luizgmelo.backend.pet.system.dto.PetRequestDTO;
+import com.luizgmelo.backend.pet.system.enums.PetType;
 import com.luizgmelo.backend.pet.system.models.AddressModel;
-import com.luizgmelo.backend.pet.system.models.PetModel;
+import com.luizgmelo.backend.pet.system.models.Pet;
 import com.luizgmelo.backend.pet.system.repositories.AddressRepository;
 import com.luizgmelo.backend.pet.system.repositories.PetRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,12 @@ public class PetService {
     private final PetRepository petRepository;
     private final AddressRepository addressRepository;
 
-    public PetModel getPetById(UUID id) {
+    public Pet getPetById(UUID id) {
         return petRepository.findById(id).orElseThrow();
+    }
+
+    public Page<PetDTO> listPetsByType(PetType petType, Pageable pageable) {
+        return petRepository.findAllByType(petType, pageable).map(PetDTO::fromPet);
     }
 
     public Page<PetDTO> listPest(int pageNo, int pageSize) {
@@ -35,17 +40,17 @@ public class PetService {
 
         addressRepository.save(address);
 
-        PetModel newPet = PetModel.builder().firstName(request.firstName()).lastName(request.lastName())
+        Pet newPet = Pet.builder().firstName(request.firstName()).lastName(request.lastName())
                 .age(request.age()).address(address).sex(request.sex()).breed(request.breed()).weight(request.weight())
                 .type(request.type()).build();
 
-        PetModel savedPet = petRepository.save(newPet);
+        Pet savedPet = petRepository.save(newPet);
 
         return PetDTO.fromPet(savedPet);
     }
 
     public PetDTO updatePet(UUID petOldId, PetRequestDTO dto) {
-        PetModel petOld = this.getPetById(petOldId);
+        Pet petOld = this.getPetById(petOldId);
 
         AddressModel addressModel = new AddressModel();
         addressModel.setCity(dto.city());

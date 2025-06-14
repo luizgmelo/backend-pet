@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PetModel {
+public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

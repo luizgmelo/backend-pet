@@ -23,5 +23,5 @@ public class AddressModel {
     private String city;
 
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PetModel> pets;
+    private Set<Pet> pets;
 }
