@@ -2,14 +2,15 @@ package com.luizgmelo.backend.pet.system.services;
 
 import com.luizgmelo.backend.pet.system.dto.PetDTO;
 import com.luizgmelo.backend.pet.system.dto.PetRequestDTO;
+import com.luizgmelo.backend.pet.system.enums.PetSex;
 import com.luizgmelo.backend.pet.system.enums.PetType;
 import com.luizgmelo.backend.pet.system.models.AddressModel;
 import com.luizgmelo.backend.pet.system.models.Pet;
 import com.luizgmelo.backend.pet.system.repositories.AddressRepository;
 import com.luizgmelo.backend.pet.system.repositories.PetRepository;
+import com.luizgmelo.backend.pet.system.repositories.PetSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,19 @@ public class PetService {
         return petRepository.findById(id).orElseThrow();
     }
 
-    public Page<PetDTO> listPetsByType(PetType petType, Pageable pageable) {
-        return petRepository.findAllByType(petType, pageable).map(PetDTO::fromPet);
-    }
+    // TODO implement PetSpec for Address
+    public Page<PetDTO> listPetsByType(PetType petType, String firstName, String lastName,
+                                       PetSex petSex, Integer age, Double weight, String breed, Pageable pageable) {
+        return petRepository.findAll(PetSpec.isPetType(petType)
+                                    .and(PetSpec.hasFirstName(firstName)
+                                    .and(PetSpec.hasLastName(lastName))
+                                    .and(PetSpec.isPetSex(petSex)))
+                                    .and(PetSpec.ageEqualTo(age))
+                                    .and(PetSpec.weightInRangePlusOne(weight)
+                                    .and(PetSpec.isPetBreed(breed))), pageable).map(PetDTO::fromPet);
+                        }
 
-    public Page<PetDTO> listPest(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+    public Page<PetDTO> listPets(Pageable pageable) {
         return petRepository.findAll(pageable).map(PetDTO::fromPet);
     }
     public PetDTO createPet(PetRequestDTO request) {
