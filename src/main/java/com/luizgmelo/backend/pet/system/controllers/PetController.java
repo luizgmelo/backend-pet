@@ -5,17 +5,14 @@ import com.luizgmelo.backend.pet.system.dto.PetFilterDto;
 import com.luizgmelo.backend.pet.system.dto.PetRequestDTO;
 import com.luizgmelo.backend.pet.system.enums.PetType;
 import com.luizgmelo.backend.pet.system.services.PetService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -26,6 +23,12 @@ import java.util.UUID;
 public class PetController {
 
     private final PetService petService;
+
+    @GetMapping
+    public ResponseEntity<Page<PetDTO>> listPets(@PageableDefault(size = 12) Pageable pageable) {
+        Page<PetDTO> response = petService.listPets(pageable);
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("{type}")
     public ResponseEntity<Page<PetDTO>> listPetsByType(@PathVariable PetType type,
