@@ -30,8 +30,11 @@ public class PetController {
                                                        @RequestParam(required = false) Integer age,
                                                        @RequestParam(required = false) Double weight,
                                                        @RequestParam(required = false) String breed,
+                                                       @RequestParam(required = false) String street,
+                                                       @RequestParam(required = false) Integer houseNumber,
+                                                       @RequestParam(required = false) String city,
                                                        @PageableDefault(size = 12) Pageable pageable) {
-        Page<PetDTO> response = petService.listPetsByType(type, firstName, lastName, sex, age, weight, breed, pageable);
+        Page<PetDTO> response = petService.listPetsByType(type, firstName, lastName, sex, age, weight, breed, street, houseNumber, city, pageable);
         return ResponseEntity.ok(response);
     }
 

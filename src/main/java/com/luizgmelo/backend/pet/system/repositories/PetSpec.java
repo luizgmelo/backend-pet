@@ -2,8 +2,11 @@ package com.luizgmelo.backend.pet.system.repositories;
 
 import com.luizgmelo.backend.pet.system.enums.PetSex;
 import com.luizgmelo.backend.pet.system.enums.PetType;
+import com.luizgmelo.backend.pet.system.models.AddressModel;
+import com.luizgmelo.backend.pet.system.models.AddressModel_;
 import com.luizgmelo.backend.pet.system.models.Pet;
 import com.luizgmelo.backend.pet.system.models.Pet_;
+import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.ObjectUtils;
 
@@ -71,6 +74,36 @@ public class PetSpec {
                 return null;
             }
             return builder.equal(root.get(Pet_.BREED), breed);
+        };
+    }
+
+    public static Specification<Pet> hasStreet(String street) {
+        return (root, query, builder) -> {
+            if (ObjectUtils.isEmpty(street)) {
+                return null;
+            }
+            Join<Pet, AddressModel> addressJoin = root.join(Pet_.ADDRESS);
+            return builder.like(builder.lower(addressJoin.get(AddressModel_.STREET)), "%" + street.toLowerCase() + "%");
+        };
+    }
+
+    public static Specification<Pet> hasCity(String city) {
+        return (root, query, builder) -> {
+            if (ObjectUtils.isEmpty(city)) {
+                return null;
+            }
+            Join<Pet, AddressModel> addressJoin = root.join(Pet_.ADDRESS);
+            return builder.equal(addressJoin.get(AddressModel_.CITY), city);
+        };
+    }
+
+    public static Specification<Pet> hasHouseNumber(Integer houseNumber) {
+        return (root, query, builder) -> {
+            if (ObjectUtils.isEmpty(houseNumber)) {
+                return null;
+            }
+            Join<Pet, AddressModel> addressJoin = root.join(Pet_.ADDRESS);
+            return builder.equal(addressJoin.get(AddressModel_.HOUSE_NUMBER), houseNumber);
         };
     }
 

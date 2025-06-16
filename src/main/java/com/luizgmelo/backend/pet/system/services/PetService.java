@@ -27,17 +27,21 @@ public class PetService {
         return petRepository.findById(id).orElseThrow();
     }
 
-    // TODO implement PetSpec for Address
+
     public Page<PetDTO> listPetsByType(PetType petType, String firstName, String lastName,
-                                       PetSex petSex, Integer age, Double weight, String breed, Pageable pageable) {
+                                       PetSex petSex, Integer age, Double weight, String breed,
+                                       String street, Integer houseNumber, String city, Pageable pageable) {
         return petRepository.findAll(PetSpec.isPetType(petType)
                                     .and(PetSpec.hasFirstName(firstName)
                                     .and(PetSpec.hasLastName(lastName))
                                     .and(PetSpec.isPetSex(petSex)))
                                     .and(PetSpec.ageEqualTo(age))
                                     .and(PetSpec.weightInRangePlusOne(weight)
-                                    .and(PetSpec.isPetBreed(breed))), pageable).map(PetDTO::fromPet);
-                        }
+                                    .and(PetSpec.isPetBreed(breed))
+                                    .and(PetSpec.hasStreet(street))
+                                    .and(PetSpec.hasHouseNumber(houseNumber))
+                                    .and(PetSpec.hasCity(city))), pageable).map(PetDTO::fromPet);
+    }
 
     public Page<PetDTO> listPets(Pageable pageable) {
         return petRepository.findAll(pageable).map(PetDTO::fromPet);
