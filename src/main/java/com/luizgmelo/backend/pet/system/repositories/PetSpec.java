@@ -1,5 +1,6 @@
 package com.luizgmelo.backend.pet.system.repositories;
 
+import com.luizgmelo.backend.pet.system.dto.PetFilterDto;
 import com.luizgmelo.backend.pet.system.enums.PetSex;
 import com.luizgmelo.backend.pet.system.enums.PetType;
 import com.luizgmelo.backend.pet.system.models.AddressModel;
@@ -105,6 +106,19 @@ public class PetSpec {
             Join<Pet, AddressModel> addressJoin = root.join(Pet_.ADDRESS);
             return builder.equal(addressJoin.get(AddressModel_.HOUSE_NUMBER), houseNumber);
         };
+    }
+
+    public static Specification<Pet> byFilters(PetType type, PetFilterDto petFilterDto) {
+        return  PetSpec.isPetType(type)
+                .and(PetSpec.hasFirstName(petFilterDto.firstName())
+                .and(PetSpec.hasLastName(petFilterDto.lastName()))
+                .and(PetSpec.isPetSex(petFilterDto.sex())))
+                .and(PetSpec.ageEqualTo(petFilterDto.age()))
+                .and(PetSpec.weightInRangePlusOne(petFilterDto.weight())
+                .and(PetSpec.isPetBreed(petFilterDto.breed()))
+                .and(PetSpec.hasStreet(petFilterDto.street()))
+                .and(PetSpec.hasHouseNumber(petFilterDto.houseNumber()))
+                .and(PetSpec.hasCity(petFilterDto.city())));
     }
 
 }

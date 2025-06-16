@@ -1,8 +1,8 @@
 package com.luizgmelo.backend.pet.system.services;
 
 import com.luizgmelo.backend.pet.system.dto.PetDTO;
+import com.luizgmelo.backend.pet.system.dto.PetFilterDto;
 import com.luizgmelo.backend.pet.system.dto.PetRequestDTO;
-import com.luizgmelo.backend.pet.system.enums.PetSex;
 import com.luizgmelo.backend.pet.system.enums.PetType;
 import com.luizgmelo.backend.pet.system.models.AddressModel;
 import com.luizgmelo.backend.pet.system.models.Pet;
@@ -28,19 +28,8 @@ public class PetService {
     }
 
 
-    public Page<PetDTO> listPetsByType(PetType petType, String firstName, String lastName,
-                                       PetSex petSex, Integer age, Double weight, String breed,
-                                       String street, Integer houseNumber, String city, Pageable pageable) {
-        return petRepository.findAll(PetSpec.isPetType(petType)
-                                    .and(PetSpec.hasFirstName(firstName)
-                                    .and(PetSpec.hasLastName(lastName))
-                                    .and(PetSpec.isPetSex(petSex)))
-                                    .and(PetSpec.ageEqualTo(age))
-                                    .and(PetSpec.weightInRangePlusOne(weight)
-                                    .and(PetSpec.isPetBreed(breed))
-                                    .and(PetSpec.hasStreet(street))
-                                    .and(PetSpec.hasHouseNumber(houseNumber))
-                                    .and(PetSpec.hasCity(city))), pageable).map(PetDTO::fromPet);
+    public Page<PetDTO> listPetByFilters(PetType type, PetFilterDto filters, Pageable pageable) {
+        return petRepository.findAll(PetSpec.byFilters(type, filters), pageable).map(PetDTO::fromPet);
     }
 
     public Page<PetDTO> listPets(Pageable pageable) {

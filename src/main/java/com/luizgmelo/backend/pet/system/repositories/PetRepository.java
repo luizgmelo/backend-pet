@@ -1,6 +1,5 @@
 package com.luizgmelo.backend.pet.system.repositories;
 
-import com.luizgmelo.backend.pet.system.enums.PetType;
 import com.luizgmelo.backend.pet.system.models.Pet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
