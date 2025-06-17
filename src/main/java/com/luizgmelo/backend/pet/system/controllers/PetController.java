@@ -5,13 +5,13 @@ import com.luizgmelo.backend.pet.system.dto.PetFilterDto;
 import com.luizgmelo.backend.pet.system.dto.PetRequestDTO;
 import com.luizgmelo.backend.pet.system.enums.PetType;
 import com.luizgmelo.backend.pet.system.services.PetService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -19,7 +19,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/pets")
 @RequiredArgsConstructor
-@Validated
 public class PetController {
 
     private final PetService petService;
@@ -39,7 +38,7 @@ public class PetController {
     }
 
     @PostMapping
-    public ResponseEntity<PetDTO> createPet(@RequestBody PetRequestDTO request) {
+    public ResponseEntity<PetDTO> createPet(@Valid @RequestBody PetRequestDTO request) {
         PetDTO petDTO = petService.createPet(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(petDTO);
     }

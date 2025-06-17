@@ -23,7 +23,9 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
     private PetType type;
     private PetSex sex;
